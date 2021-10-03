@@ -1,12 +1,14 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 
 export const About = () => {
+    const [ user, setUser] = useState({});
+   
     useEffect(()=>{
         
         callAboutPage();
 
-},[])
+    },[])
 
     const navigate = useNavigate()
 
@@ -24,14 +26,14 @@ export const About = () => {
 
         const data  = await resp.json();
 
-        console.log(data)
-
         if(resp.status !== 200){
             const error = new Error(resp.error);
 
             throw error;
 
         }
+        if(resp.status === 200 )
+        setUser(data);
 
     } catch (error) {
         console.log(error); 
@@ -42,6 +44,9 @@ export const About = () => {
 
    
     return <>
-    <h1> THis is about page </h1>
+    <h1> This is about page </h1>
+
+    <h2> Welcome , {user?.username } !</h2>
+
      </>
 }

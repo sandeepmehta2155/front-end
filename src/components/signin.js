@@ -1,10 +1,25 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router"
+import { useLogin } from "../login-context/login-provider"
 
 export const SignInComponent = () => {
 
-    const [username,setUsername ] = useState()
+   
+    const { LoginHandler } = useLogin()
+
+    const navigate = useNavigate()
+
+    const [username , setUsername ] = useState()
 
     const [password , setPassword] = useState()
+
+    const { token } = JSON.parse(localStorage.getItem('token')) || {
+        token : ''
+    }
+
+    useEffect( () => {
+        token ? navigate('/about') : navigate('/signin')
+    } ,[])
 
     const Submit = async(e) => {
 
@@ -23,8 +38,17 @@ export const SignInComponent = () => {
 
         const data = await resp.json()
         
-        if(data?.message === "user authentication is successful")
-        window.alert('Auth is Successful')
+        if(data?.message === "user authentication is successful"){
+            window.alert('Auth is Successful')
+
+            localStorage.setItem('token' , JSON.stringify({ token : data.token}))
+
+            localStorage.setItem('login' , JSON.stringify({ login : true}))
+
+            setTimeout(()=> navigate('/about') , 1000)
+
+            LoginHandler()
+        }
         else 
         window.alert('Invalid auth')
 
@@ -32,11 +56,12 @@ export const SignInComponent = () => {
 
     return <>
     <h1> This is signin component </h1>
+  
     <section className='signup'>
         <div className="container mt-5">
             <div className="signup-content">
                 <div className="signup-form"> 
-                    <h2 className="form-title">Sign Up</h2>
+                    <h2 className="form-title">Sign In</h2>
                         <form className="register-form" method='POST' id="register-form">
                             <div className="form-group">
                                 <label htmlFor='name'>

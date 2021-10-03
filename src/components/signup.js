@@ -7,17 +7,14 @@ export const SignUpComponent = () => {
 
     const [user,setUser] = useState({
         username : '',
-        email : '' , 
+        role : '',
         password : '',
         cpassword : ''
     })
 
-    let name ,value;
+    let name , value;
 
     const HandleInput = (e) => {
-
-        console.log(e.target.name)
-
             name = e.target.name;
             value = e.target.value;
 
@@ -29,25 +26,28 @@ export const SignUpComponent = () => {
 
             e.preventDefault();
 
-            const { username , email , password , cpassword } = user;
+            const { username  , password , cpassword , role } = user;
 
             const response = await fetch('/auth/register' ,{
                 method :  "POST" , 
                 headers : {
                     "Content-type" : "application/json"
-                }, body : JSON.stringify({
-                    username  , email , password , cpassword
+                },
+                body : JSON.stringify({
+                    username , password , cpassword ,role
                 })
             })
 
             const data = await response.json();
-            
-            if(data.status === 422 || !data)
-            window.alert("Invalid registration")
-            else
-            window.alert('Successfull registration')
 
-            navigate("/signin")
+            console.log("42",response?.status , data)
+            
+            if(response?.status === 201){
+                window.alert("Successful registration");  
+                navigate("/signin");
+            }
+            else
+            window.alert('Invalid registration')
 
     }
 
@@ -68,13 +68,18 @@ export const SignUpComponent = () => {
                                 autoComplete="off" onChange={HandleInput} />
 
                             </div>
+                           
                             <div className="form-group">
-                                <label htmlFor='email'>
-                                <i className="zmdi zmdi-assignment-account material-icons-name"></i>
+                                <label htmlFor='name'>
+                                <i class="zmdi zmdi-lock material-icons-name"></i>
                                 </label>
-                                <input type="email" name="email" id="email" value={user.email} placeholder="Your email" onChange={(e)=>HandleInput(e)} autoComplete="off"/>
-
+                                <select name="role" id="role" onChange={HandleInput}>
+                                    <option></option>
+                                    <option>Buyer</option>
+                                    <option>Seller</option>
+                                </select>
                             </div>
+
                             <div className="form-group">
                                 <label htmlFor='name'>
                                 <i class="zmdi zmdi-lock material-icons-name"></i>
