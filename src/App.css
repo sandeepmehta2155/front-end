@@ -24,6 +24,49 @@
   color: white;
 }
 
+.bi.bi-file-person{
+  float:  right;
+  position: relative;
+  top:1.5rem;
+  right : 2rem;
+
+}
+.bi.bi-file{
+
+  float:  right;
+  position: relative;
+  top : 1rem;
+  right: 1rem;
+
+}
+
+.vedingPackage{
+  display: flex;
+  row-gap: 1rem;
+  column-gap: 1rem;
+}
+
+.vendingCoins{
+
+  cursor:  pointer;
+  border: 1px solid gray;
+  padding: 1rem;
+  border-radius: 50%;
+}
+
+.products{
+  display:  flex;
+  /* flex-direction: column; */
+  row-gap:  1rem;
+  column-gap: 1rem;
+}
+
+.products div {
+  border: 0.5px solid lightgray;
+  border-radius: 0.5rem;
+  padding:  1rem;
+}
+
 .App-link {
   color: #61dafb;
 }

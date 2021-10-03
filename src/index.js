@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from "react-router-dom"
+import {LoginProvider} from "./login-context/login-provider"
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-    <App />
+      <LoginProvider>
+         <App />
+      </LoginProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
